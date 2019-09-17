@@ -228,8 +228,12 @@ class RefsContainerTests(object):
         self.assertTrue(self._refs.set_if_equals(b'HEAD', nines, nines))
         self.assertEqual(nines, self._refs[b'HEAD'])
 
-        self.assertTrue(self._refs.set_if_equals(b'refs/heads/master', None,
-                                                 nines))
+        # DictRefsContainer doesn’t fully support symbolic refs and therefore
+        # the call to set_if_equals() changes the ref, while the ref is already
+        # set to the same value with DiskRefsContainer.
+        self.assertIs(
+                isinstance(self._refs, DictRefsContainer),
+                self._refs.set_if_equals(b'refs/heads/master', None, nines))
         self.assertEqual(nines, self._refs[b'refs/heads/master'])
 
         self.assertTrue(self._refs.set_if_equals(
