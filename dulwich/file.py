@@ -168,7 +168,7 @@ class _GitFile(object):
         """
         if self._closed:
             return
-        os.fsync(self._file.fileno())
+        #os.fsync(self._file.fileno())
         self._file.close()
         try:
             if getattr(os, 'replace', None) is not None:
